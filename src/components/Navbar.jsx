@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import nokialogo from "../assets/nokialogo.png";
+import locationlogo from "../assets/locationlogo.jpeg"
 import droupdown_img from "../assets/dropdown_icon.png";
 import menu_icon from "../assets/menu_icon.png";
 import { Link, NavLink } from "react-router-dom";
@@ -16,7 +17,7 @@ const Navbar = ({ searchText, setSearchText, user, token, onLogout }) => {
 
         {/* LOGO */}
         <Link to={token ? "/home" : "/"}>
-          <h1>Home</h1>
+          <img src={locationlogo} className="w-16"/>
         </Link>
 
         {/* TITLE */}
