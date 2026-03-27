@@ -5,6 +5,14 @@ This is the frontend for the Location Tracking System. It provides a user interf
 
 ---
 
+## 🔏 Login Password
+
+- Username : admin@nokia.com
+- Password : Head@123
+
+- username : harish@nokia.com
+- Password : Harish@123
+
 ## 🛠️ Tech Stack
 - React.js
 - Axios
