@@ -116,11 +116,12 @@ function Home({ searchText }) {
               return (
                 <div
                   key={block._id}
-                  className={`border-b p-5 flex justify-between pb-3 mb-3 text-white ${record?.status === "RUNNING"
+                  className={`border-b p-5 pb-3 mb-3 text-white ${record?.status === "RUNNING"
                       ? "bg-green-500"
                       : "bg-yellow-400"
                     }`}
                 >
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                   <p>
                     <b>Product ID:</b> {block.productID}
                   </p>
@@ -140,6 +141,7 @@ function Home({ searchText }) {
                     <b>Status:</b>{" "}
                     {record?.status || "IDLE"}
                   </p>
+                </div>
                 </div>
               );
             })
