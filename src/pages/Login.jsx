@@ -37,7 +37,7 @@ const Login = ({setUser, setToken}) => {
   return (
     <form
       onSubmit={onSubmitHandler}
-      className="flex flex-col items-center w-[30%] sm:max-w-96 m-auto mt-14 gap-4"
+      className="flex flex-col items-center w-[50%] sm:w-[50%] md:w-[40%] lg:w-[30%] max-w-96 m-auto mt-14 gap-4"
     >
       <h2 className="text-3xl">Login</h2>
 
