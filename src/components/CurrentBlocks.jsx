@@ -39,23 +39,23 @@ const CurrentBlocks = () => {
       </h1>
 
       <div className="grid gap-10 p-5 grid-cols-1 sm:grid-cols-2">
-        {running.length === 0 ? (
-          <div className="flex justify-center items-center">
-          <p className="text-red-500 h-[50vh]">
-            
-          </p>
-          </div>
-        ) : (
-          running.map((r, i) => (
-            <h1
-              key={r._id}
-              className="bg-green-700 rounded-full text-center text-white p-5 text-2xl"
-            >
-              {i + 1}. {r.lineId} | {r.blockId}|{r.productID} |{r.productName}
-            </h1>
-          ))
-        )}
-      </div>
+  {running.length === 0 ? (
+    <div className="col-span-full flex justify-center items-center h-40">
+      <p className="text-2xl font-semibold text-red-500">
+        No product is running
+      </p>
+    </div>
+  ) : (
+    running.map((r, i) => (
+      <h1
+        key={r._id}
+        className="bg-green-700 rounded-full text-center text-white p-5 text-2xl"
+      >
+        {i + 1}. {r.lineId} | {r.blockId} | {r.productID} | {r.productName}
+      </h1>
+    ))
+  )}
+</div>
     </div>
   );
 };

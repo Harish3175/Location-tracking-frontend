@@ -44,9 +44,11 @@ const BlockLine = () => {
 
   return (
 
-    <div className="p-4 bg-gray-500 rounded shadow mt-4 max-w-6xl mx-auto ">
+    <div className="p-4 bg-gray-500 rounded shadow mt-4 max-w-3xl mx-auto ">
       <h2 className="font-bold mb-3 text-3xl text-center">Scan Details</h2>
 
+      <div>
+      
       <input
         type='text'
         placeholder="Scan Block ID"
@@ -86,6 +88,8 @@ const BlockLine = () => {
           }
         }}
       />
+
+      </div>
 
       <p className="mt-2 text-sm text-gray-600">
         Product ID: {blockId}, Line ID: {lineId}, Operator ID: {operatorId}
