@@ -14,6 +14,8 @@ const Footer = () => {
             <p className="text-sm text-gray-400">
               A full-stack MERN application to track and manage real-time user locations securely using JWT authentication.
             </p>
+            <h1>Email : admin@nokia.com</h1>
+            <h1>Password : Head@123</h1>
           </div>
 
           {/* About Project (NEW SECTION) */}
