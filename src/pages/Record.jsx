@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import * as XLSX from "xlsx";
 
 const Record = ({ searchText }) => {
 
@@ -40,55 +41,95 @@ const Record = ({ searchText }) => {
     setRecords(prev => prev.filter(r => r._id !== id));
   };
 
+
+  const exportToExcel = () => {
+    const excelData = filteredHistory.map((item) => ({
+      "Operator IN": item.operatorIn,
+      "Start Time": item.startTime
+        ? new Date(item.startTime).toLocaleString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          hour12: false,
+        })
+        : "",
+      "Line": item.lineId,
+      "Block ID": item.blockId,
+      "End Time": item.endTime
+        ? new Date(item.endTime).toLocaleString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          hour12: false,
+        })
+        : "",
+      "Operator OUT": item.operatorOut,
+      "Last Location": item.lastLocation,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
+
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Records");
+
+    XLSX.writeFile(workbook, "Operator_Records.xlsx");
+  };
+
   return (
     <div className="p-5">
       <h2 className="text-2xl font-bold text-center mb-4">
         Operator Record
       </h2>
 
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={exportToExcel}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+        >
+          Export Excel
+        </button>
+      </div>
+
       {filteredHistory.length === 0 ? (
         <p className="text-gray-500 text-center">No history found</p>
       ) : (
         <div className="overflow-x-auto">
-        <table className="w-full border min-[800px]:">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="border p-2">Operator IN</th>
-              <th className="border p-2">Start</th>
-              <th className="border p-2">Line</th>
-              <th className="border p-2">Block</th>
-              <th className="border p-2">End</th>
-              <th className="border p-2">Operator OUT</th>
-              <th className="border p-2">Last Location</th>
-              {user?.role === "admin" && (
-                <th className="border p-2">Action</th>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredHistory.map(h => (
-              <tr key={h._id}>
-                <td className="border p-2">{h.operatorIn}</td>
-                <td className="border p-2">{h.startTime? new Date(h.startTime).toLocaleString("en-IN", {timeZone: "Asia/Kolkata",hour12:false}): ""}</td>
-                <td className="border p-2">{h.lineId}</td>
-                <td className="border p-2">{h.blockId}</td>
-                <td className="border p-2">{h.endTime? new Date(h.endTime).toLocaleString("en-IN", {timeZone: "Asia/Kolkata",hour12:false}): ""}</td>
-                <td className="border p-2">{h.operatorOut}</td>
-                <td className="border p-2">{h.lastLocation}</td>
+          <table className="w-full border min-[800px]:">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="border p-2">Operator IN</th>
+                <th className="border p-2">Start</th>
+                <th className="border p-2">Line</th>
+                <th className="border p-2">Block</th>
+                <th className="border p-2">End</th>
+                <th className="border p-2">Operator OUT</th>
+                <th className="border p-2">Last Location</th>
                 {user?.role === "admin" && (
-                  <td className="border p-2 text-center">
-                    <button
-                      onClick={() => handleDelete(h._id)}
-                      className="bg-red-600 text-white px-3 py-1 rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
+                  <th className="border p-2">Action</th>
                 )}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredHistory.map(h => (
+                <tr key={h._id}>
+                  <td className="border p-2">{h.operatorIn}</td>
+                  <td className="border p-2">{h.startTime ? new Date(h.startTime).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", hour12: false }) : ""}</td>
+                  <td className="border p-2">{h.lineId}</td>
+                  <td className="border p-2">{h.blockId}</td>
+                  <td className="border p-2">{h.endTime ? new Date(h.endTime).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", hour12: false }) : ""}</td>
+                  <td className="border p-2">{h.operatorOut}</td>
+                  <td className="border p-2">{h.lastLocation}</td>
+                  {user?.role === "admin" && (
+                    <td className="border p-2 text-center">
+                      <button
+                        onClick={() => handleDelete(h._id)}
+                        className="bg-red-600 text-white px-3 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

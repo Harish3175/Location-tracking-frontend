@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import* as XLSX from "xlsx";
 
 export default function AllProducts({ searchText }) {
   const [history, setHistory] = useState([]);
@@ -10,6 +11,15 @@ export default function AllProducts({ searchText }) {
   const safeSearch = (searchText || "").toLowerCase();
 
   const navigate = useNavigate();
+
+  const filteredHistory = history.filter(
+  (h) =>
+    h.blockId?.toLowerCase().includes(safeSearch) ||
+    h.productId?.toLowerCase().includes(safeSearch) ||
+    h.productName?.toLowerCase().includes(safeSearch) ||
+    h.engineerName?.toLowerCase().includes(safeSearch) ||
+    h.description?.toLowerCase().includes(safeSearch)
+);
 
 
   const loadHistory = () => {
@@ -44,9 +54,44 @@ export default function AllProducts({ searchText }) {
 
   //console.log("Deleting history id:",selected._id)
 
+
+  const exportToExcel = () => {
+  const excelData = filteredHistory.map((item) => ({
+    "Block ID": item.blockId,
+    "Product ID": item.productId,
+    "Product Name": item.productName,
+    "Engineer": item.engineerName,
+    "Description": item.description,
+    "Date": item.createdAt
+  ? new Date(item.createdAt).toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      hour12: false,
+    })
+  : "",
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(excelData);
+
+  const workbook = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Product History");
+
+  XLSX.writeFile(workbook, "Product_History.xlsx");
+};
+  
+
   return (
     <div className="p-6">
       <h2 className="text-xl text-center font-bold mb-4">All Products History</h2>
+
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={exportToExcel}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+        >
+          Export Excel
+        </button>
+      </div>
 
 <div className="overflow-x-auto">
       <table className="w-full min-w[800px] border">
@@ -64,15 +109,7 @@ export default function AllProducts({ searchText }) {
         </thead>
 
         <tbody>
-          {history
-            .filter(h =>
-              h.blockId?.toLowerCase().includes(safeSearch) ||
-              h.productId?.toLowerCase().includes(safeSearch) ||
-              h.productName?.toLowerCase().includes(safeSearch) ||
-              h.engineerName?.toLowerCase().includes(safeSearch) ||
-              h.description?.toLowerCase().includes(safeSearch)
-            )
-            .map((h, i) => (
+          {filteredHistory.map((h, i) => (
               <tr key={h._id} className="border text-center">
 
                 <td>{i + 1}</td>

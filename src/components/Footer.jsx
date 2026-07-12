@@ -16,6 +16,8 @@ const Footer = () => {
             </p>
             <h1>Email : admin@nokia.com</h1>
             <h1>Password : Head@123</h1>
+            <h1>Operator : harish@nokia.com</h1>
+            <h1>Password : Harish@123</h1>
           </div>
 
           {/* About Project (NEW SECTION) */}
